@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luma — Digital Greetings</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+    --pink: #c87596;
+    --dark: #87546b;
+    --soft: #fff3f7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 10% 10%, #fff 0, transparent 35%),
+      linear-gradient(135deg,#fff5f8,#f8e1eb,#fff8fa);
+    font-family: 'Cairo', sans-serif;
+    color: var(--dark);
+    padding: 25px 15px;
+}
+
+header {
+    text-align: center;
+    margin: 10px 0 30px;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #bd6c8d;
+    letter-spacing: 4px;
+}
+
+.subtitle {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #b88b9e;
+    direction: ltr;
+}
+
+.line {
+    width: 55px;
+    height: 2px;
+    background: #e5b3c8;
+    margin: 15px auto;
+}
+
+.container {
+    max-width: 920px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+.panel {
+    background: rgba(255,255,255,.82);
+    border: 1px solid white;
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 12px 40px #d9a8bc33;
+}
+
+h2 {
+    font-size: 21px;
+    color: #b76b89;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    margin: 17px 0 7px;
+    font-weight: 600;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #eed5df;
+    background: #fff9fb;
+    border-radius: 13px;
+    outline: none;
+    font-family: 'Cairo', sans-serif;
+    color: #87546b;
+    font-size: 14px;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #ce8ca7;
+    box-shadow: 0 0 0 3px #f7e3ec;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 95px;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 13px 20px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.main-btn {
+    width: 100%;
+    margin-top: 22px;
+    background: linear-gradient(120deg,#d58eaa,#b65e83);
+    color: white;
+    box-shadow: 0 7px 18px #dca9bf66;
+}
+
+.secondary-btn {
+    background: #fff0f5;
+    color: #b65e83;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.preview {
+    min-height: 430px;
+    border-radius: 23px;
+    padding: 30px 20px;
+    text-align: center;
+    background: linear-gradient(145deg,#fff7fa,#f9e0eb);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.preview::before, .preview::after {
+    content: "✦";
+    position: absolute;
+    color: #e7b2c8;
+    font-size: 25px;
+}
+
+.preview::before {
+    top: 20px;
+    right: 25px;
+}
+
+.preview::after {
+    bottom: 20px;
+    left: 25px;
+}
+
+.preview h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(27px,5vw,39px);
+    color: #b65e83;
+    direction: ltr;
+    margin: 15px 0;
+}
+
+.preview .cake {
+    font-size: 85px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    50% { transform: translateY(-10px); }
+}
+
+.preview .person {
+    color: #c77b99;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.preview .message {
+    font-size: 14px;
+    line-height: 2.1;
+    max-width: 280px;
+    white-space: pre-wrap;
+}
+
+.preview .small {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 3px;
+    font-size: 10px;
+    color: #b98ba0;
+    direction: ltr;
+}
+
+.footer {
+    text-align: center;
+    margin: 35px 0 10px;
+    font-size: 11px;
+    color: #b88b9e;
+    letter-spacing: 2px;
+    direction: ltr;
+}
+
+#shareArea {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff3f7;
+    border-radius: 15px;
+}
+
+#shareLink {
+    direction: ltr;
+    font-size: 11px;
+    word-break: break-all;
+    color: #a35e7c;
+    margin: 10px 0;
+}
+
+body.viewer .container {
+    display: block;
+    max-width: 500px;
+}
+
+body.viewer .editor {
+    display: none;
+}
+
+body.viewer .preview {
+    min-height: 530px;
+    box-shadow: 0 15px 45px #d9a8bc44;
+}
+
+body.viewer .footer {
+    margin-top: 25px;
+}
+
+body.viewer #backLink {
+    display: block;
+}
+
+#backLink {
+    display: none;
+    text-align: center;
+    margin-top: 18px;
+    color: #b65e83;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+@media(max-width:650px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    .preview {
+        min-height: 390px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Luma</div>
+    <div class="subtitle">DIGITAL GREETINGS STUDIO</div>
+    <div class="line"></div>
+</header>
+
+<main class="container">
+
+    <section class="panel editor">
+        <h2>اصنعي تهنئتك ♡</h2>
+        <p style="font-size:12px;color:#ae8799">
+            كل مناسبة تستحق لحظة جميلة.
+        </p>
+
+        <label>اسم الشخص</label>
+        <input id="nameInput" type="text"
+               placeholder="اكتبي الاسم هنا">
+
+        <label>نوع المناسبة</label>
+        <select id="occasion">
+            <option value="birthday">عيد ميلاد 🎂</option>
+            <option value="graduation">تخرج 🎓</option>
+            <option value="thankyou">شكرًا لك 🌷</option>
+            <option value="love">رسالة محبة 💗</option>
+        </select>
+
+        <label>اختاري لون التصميم</label>
+        <select id="theme">
+            <option value="pink">Pink Dream 🎀</option>
+            <option value="lavender">Lavender 💜</option>
+            <option value="cream">Soft Cream 🤍</option>
+        </select>
+
+        <label>رسالتك الخاصة</label>
+        <textarea id="messageInput"
+          placeholder="اكتبي أجمل كلماتك..."></textarea>
+
+        <button class="main-btn" onclick="generateLink()">
+            إنشاء رابط التهنئة ♡
+        </button>
+
+        <div id="shareArea">
+            <strong style="color:#b65e83">
+                تهنئتك جاهزة! ✨
+            </strong>
+            <p style="font-size:12px">
+                انسخي الرابط وشاركيه مع الشخص.
+            </p>
+            <div id="shareLink"></div>
+            <button class="main-btn" onclick="copyLink()">
+                نسخ الرابط ♡
+            </button>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2 style="text-align:center">Live Preview</h2>
+
+        <div class="preview" id="preview">
+            <div class="small">A SPECIAL MOMENT</div>
+            <h1 id="previewTitle">Happy Birthday!</h1>
+            <div class="person" id="previewName">
+                Beautiful Soul ♡
+            </div>
+            <div class="cake" id="previewIcon">🎂</div>
+            <div class="message" id="previewMessage">
+                May your day be filled with love,
+                happiness and beautiful memories.
+            </div>
+            <div class="line"></div>
+            <div class="small">MADE WITH LOVE BY LUMA</div>
+        </div>
+
+        <a id="backLink" href="?">Create another greeting ↗</a>
+    </section>
+
+</main>
+
+<footer class="footer">
+    LUMA © 2026 — MADE WITH LOVE
+</footer>
+
+<script>
+
+const nameInput = document.getElementById("nameInput");
+const messageInput = document.getElementById("messageInput");
+const occasion = document.getElementById("occasion");
+const theme = document.getElementById("theme");
+
+const titles = {
+    birthday: "Happy Birthday!",
+    graduation: "Congratulations!",
+    thankyou: "Thank You!",
+    love: "With Love ♡"
+};
+
+const icons = {
+    birthday: "🎂",
+    graduation: "🎓",
+    thankyou: "🌷",
+    love: "💗"
+};
+
+const colors = {
+    pink: ["#fff7fa", "#f9e0eb", "#b65e83"],
+    lavender: ["#faf7ff", "#e9e0fa", "#9073b9"],
+    cream: ["#fffaf0", "#f3e9d7", "#aa8961"]
+};
+
+function updatePreview() {
+    document.getElementById("previewName").textContent =
+        nameInput.value.trim() || "Beautiful Soul ♡";
+
+    document.getElementById("previewMessage").textContent =
+        messageInput.value.trim() ||
+        "May your day be filled with love, happiness and beautiful memories.";
+
+    document.getElementById("previewTitle").textContent =
+        titles[occasion.value];
+
+    document.getElementById("previewIcon").textContent =
+        icons[occasion.value];
+
+    const selected = colors[theme.value];
+    const preview = document.getElementById("preview");
+
+    preview.style.background =
+        `linear-gradient(145deg, ${selected[0]}, ${selected[1]})`;
+
+    document.getElementById("previewTitle").style.color =
+        selected[2];
+
+    document.getElementById("previewName").style.color =
+        selected[2];
+}
+
+nameInput.addEventListener("input", updatePreview);
+messageInput.addEventListener("input", updatePreview);
+occasion.addEventListener("change", updatePreview);
+theme.addEventListener("change", updatePreview);
+
+function generateLink() {
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert("اكتبي اسم الشخص أولاً ♡");
+        nameInput.focus();
+        return;
+    }
+
+    const link = new URL(window.location.href);
+
+    link.search = "";
+
+    link.searchParams.set("name", name);
+    link.searchParams.set("message", messageInput.value.trim());
+    link.searchParams.set("occasion", occasion.value);
+    link.searchParams.set("theme", theme.value);
+
+    const shareURL = link.href;
+
+    document.getElementById("shareLink").textContent = shareURL;
+    document.getElementById("shareArea").style.display = "block";
+
+    window.generatedLink = shareURL;
+}
+
+async function copyLink() {
+    try {
+        await navigator.clipboard.writeText(window.generatedLink);
+        alert("تم نسخ الرابط! شاركيه مع من تحبين 💗");
+    } catch (error) {
+        alert("ما قدرنا ننسخ تلقائياً. حددي الرابط وانسخيه يدوياً.");
+    }
+}
+
+function loadGreeting() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (!params.has("name")) return;
+
+    document.body.classList.add("viewer");
+
+    nameInput.value = params.get("name") || "";
+    messageInput.value = params.get("message") || "";
+    occasion.value = params.get("occasion") || "birthday";
+    theme.value = params.get("theme") || "pink";
+
+    if (!titles[occasion.value]) occasion.value = "birthday";
+    if (!colors[theme.value]) theme.value = "pink";
+
+    updatePreview();
+}
+
+loadGreeting();
+updatePreview();
+
+</script>
+</body>
+</html>
